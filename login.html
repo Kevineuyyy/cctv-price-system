@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login CCTV System</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded-xl shadow w-96">
+
+  <h1 class="text-3xl font-bold mb-6 text-center">
+    LOGIN ADMIN
+  </h1>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Email"
+    class="w-full border p-3 rounded-lg mb-3"
+  >
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Password"
+    class="w-full border p-3 rounded-lg mb-5"
+  >
+
+  <button
+    id="loginBtn"
+    class="w-full bg-blue-600 text-white p-3 rounded-lg"
+  >
+    Login
+  </button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCZ-2wwPQ9AQ9CkF6XEqHNHRLWAATzP2js",
+  authDomain: "cctv-price-system.firebaseapp.com",
+  projectId: "cctv-price-system",
+  storageBucket: "cctv-price-system.firebasestorage.app",
+  messagingSenderId: "628180371498",
+  appId: "1:628180371498:web:b33ce80a756a0e2bf0db53"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+document.getElementById("loginBtn")
+.addEventListener("click", async () => {
+
+  const email =
+    document.getElementById("email").value;
+
+  const password =
+    document.getElementById("password").value;
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    alert("Login berhasil");
+
+    window.location.href = "index.html";
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
