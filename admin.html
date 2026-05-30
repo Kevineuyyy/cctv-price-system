@@ -73,7 +73,7 @@
           <th class="p-3">Jenis</th>
           <th class="p-3">Resolusi</th>
           <th class="p-3">Harga</th>
-          <th class="p-3">Aksi</th>
+          <th class="p-3">Aksi</th>s
 
         </tr>
 
@@ -99,7 +99,8 @@ import {
   addDoc,
   getDocs,
   deleteDoc,
-  doc
+  doc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -154,6 +155,28 @@ async function loadData() {
 
   <td class="p-3 flex gap-2">
 
+  <button
+    onclick="editProduk(
+      '${doc.id}',
+      '${item.seri}',
+      '${item.jenis}',
+      '${item.resolusi}',
+      '${item.harga}'
+    )"
+    class="bg-yellow-500 text-white px-3 py-1 rounded"
+  >
+    Edit
+  </button>
+
+  <button
+    onclick="hapus('${doc.id}')"
+    class="bg-red-500 text-white px-3 py-1 rounded"
+  >
+    Hapus
+  </button>
+
+</td>
+
     <button
       onclick="hapus('${doc.id}')"
       class="bg-red-500 text-white px-3 py-1 rounded"
@@ -204,6 +227,49 @@ window.hapus = async function(id) {
     await deleteDoc(doc(db, "cctv", id));
 
     loadData();
+
+  }
+
+}
+window.editProduk = async function(
+  id,
+  seriLama,
+  jenisLama,
+  resolusiLama,
+  hargaLama
+) {
+
+  const seriBaru =
+    prompt("Edit Seri", seriLama);
+
+  const jenisBaru =
+    prompt("Edit Jenis", jenisLama);
+
+  const resolusiBaru =
+    prompt("Edit Resolusi", resolusiLama);
+
+  const hargaBaru =
+    prompt("Edit Harga", hargaLama);
+
+  if(
+    seriBaru &&
+    jenisBaru &&
+    resolusiBaru &&
+    hargaBaru
+  ) {
+
+    await updateDoc(doc(db, "cctv", id), {
+
+      seri: seriBaru,
+      jenis: jenisBaru,
+      resolusi: resolusiBaru,
+      harga: Number(hargaBaru)
+
+    });
+
+    loadData();
+
+    alert("Produk berhasil diupdate");
 
   }
 
