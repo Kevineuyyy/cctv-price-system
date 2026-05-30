@@ -1,33 +1,66 @@
-const dataCCTV = [
-  {
-    seri: "DH-HAC-T1A21P",
-    jenis: "Indoor",
-    resolusi: "2MP",
-    harga: "250000"
-  },
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  {
-    seri: "DH-HAC-HFW1209TP",
-    jenis: "Outdoor",
-    resolusi: "2MP",
-    harga: "340000"
-  }
-];
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCZ-2wwPQ9AQ9CkF6XEqHNHRLWAATzP2js",
+  authDomain: "cctv-price-system.firebaseapp.com",
+  projectId: "cctv-price-system",
+  storageBucket: "cctv-price-system.firebasestorage.app",
+  messagingSenderId: "628180371498",
+  appId: "1:628180371498:web:b33ce80a756a0e2bf0db53"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 const table = document.getElementById("cctvTable");
 
-dataCCTV.forEach(item => {
+async function loadData() {
 
-  table.innerHTML += `
-  
-    <tr class="border-b">
-      <td class="p-3">${item.seri}</td>
-      <td class="p-3">${item.jenis}</td>
-      <td class="p-3">${item.resolusi}</td>
-      <td class="p-3">
-        Rp ${Number(item.harga).toLocaleString("id-ID")}
-      </td>
-    </tr>
-  
-  `;
-});
+  const querySnapshot =
+    await getDocs(collection(db, "cctv"));
+
+  table.innerHTML = "";
+
+  querySnapshot.forEach((doc) => {
+
+    const item = doc.data();
+
+    table.innerHTML += `
+
+      <tr class="border-b">
+
+        <td class="p-3">
+          ${item.seri}
+        </td>
+
+        <td class="p-3">
+          ${item.jenis}
+        </td>
+
+        <td class="p-3">
+          ${item.resolusi}
+        </td>
+
+        <td class="p-3">
+          Rp ${Number(item.harga)
+            .toLocaleString("id-ID")}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+loadData();
