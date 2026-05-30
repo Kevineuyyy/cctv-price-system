@@ -73,6 +73,7 @@
           <th class="p-3">Jenis</th>
           <th class="p-3">Resolusi</th>
           <th class="p-3">Harga</th>
+          <th class="p-3">Aksi</th>
 
         </tr>
 
@@ -96,7 +97,9 @@ import {
   getFirestore,
   collection,
   addDoc,
-  getDocs
+  getDocs,
+  deleteDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -130,22 +133,39 @@ async function loadData() {
 
     table.innerHTML += `
 
-      <tr class="border-b">
+<tr class="border-b">
 
-        <td class="p-3">${item.seri}</td>
+  <td class="p-3">
+    ${item.seri}
+  </td>
 
-        <td class="p-3">${item.jenis}</td>
+  <td class="p-3">
+    ${item.jenis}
+  </td>
 
-        <td class="p-3">${item.resolusi}</td>
+  <td class="p-3">
+    ${item.resolusi}
+  </td>
 
-        <td class="p-3">
-          Rp ${Number(item.harga)
-            .toLocaleString("id-ID")}
-        </td>
+  <td class="p-3">
+    Rp ${Number(item.harga)
+      .toLocaleString("id-ID")}
+  </td>
 
-      </tr>
+  <td class="p-3 flex gap-2">
 
-    `;
+    <button
+      onclick="hapus('${doc.id}')"
+      class="bg-red-500 text-white px-3 py-1 rounded"
+    >
+      Hapus
+    </button>
+
+  </td>
+
+</tr>
+
+`;
 
   });
 
@@ -177,6 +197,17 @@ document.getElementById("addBtn")
   loadData();
 
 });
+window.hapus = async function(id) {
+
+  if(confirm("Hapus produk?")) {
+
+    await deleteDoc(doc(db, "cctv", id));
+
+    loadData();
+
+  }
+
+}
 </script>
 
 </body>
