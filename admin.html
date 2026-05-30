@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin CCTV</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-5">
+
+<div class="max-w-5xl mx-auto">
+
+  <h1 class="text-3xl font-bold mb-5">
+    ADMIN CCTV SYSTEM
+  </h1>
+
+  <div class="bg-white p-5 rounded-xl shadow mb-5">
+
+    <h2 class="text-xl font-bold mb-4">
+      Tambah Produk
+    </h2>
+
+    <div class="grid grid-cols-2 gap-3">
+
+      <input
+        id="seri"
+        placeholder="Seri"
+        class="border p-3 rounded-lg"
+      >
+
+      <input
+        id="jenis"
+        placeholder="Jenis"
+        class="border p-3 rounded-lg"
+      >
+
+      <input
+        id="resolusi"
+        placeholder="Resolusi"
+        class="border p-3 rounded-lg"
+      >
+
+      <input
+        id="harga"
+        type="number"
+        placeholder="Harga"
+        class="border p-3 rounded-lg"
+      >
+
+    </div>
+
+    <button
+      id="addBtn"
+      class="mt-4 bg-blue-600 text-white px-5 py-3 rounded-lg"
+    >
+      Tambah Produk
+    </button>
+
+  </div>
+
+  <div class="bg-white p-5 rounded-xl shadow">
+
+    <table class="w-full">
+
+      <thead class="bg-gray-200">
+
+        <tr>
+
+          <th class="p-3">Seri</th>
+          <th class="p-3">Jenis</th>
+          <th class="p-3">Resolusi</th>
+          <th class="p-3">Harga</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="tableData">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCZ-2wwPQ9AQ9CkF6XEqHNHRLWAATzP2js",
+  authDomain: "cctv-price-system.firebaseapp.com",
+  projectId: "cctv-price-system",
+  storageBucket: "cctv-price-system.firebasestorage.app",
+  messagingSenderId: "628180371498",
+  appId: "1:628180371498:web:b33ce80a756a0e2bf0db53"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const table =
+  document.getElementById("tableData");
+
+async function loadData() {
+
+  const querySnapshot =
+    await getDocs(collection(db, "cctv"));
+
+  table.innerHTML = "";
+
+  querySnapshot.forEach((doc) => {
+
+    const item = doc.data();
+
+    table.innerHTML += `
+
+      <tr class="border-b">
+
+        <td class="p-3">${item.seri}</td>
+
+        <td class="p-3">${item.jenis}</td>
+
+        <td class="p-3">${item.resolusi}</td>
+
+        <td class="p-3">
+          Rp ${Number(item.harga)
+            .toLocaleString("id-ID")}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+loadData();
+
+document.getElementById("addBtn")
+.addEventListener("click", async () => {
+
+  await addDoc(collection(db, "cctv"), {
+
+    seri:
+      document.getElementById("seri").value,
+
+    jenis:
+      document.getElementById("jenis").value,
+
+    resolusi:
+      document.getElementById("resolusi").value,
+
+    harga:
+      Number(document.getElementById("harga").value)
+
+  });
+
+  alert("Produk berhasil ditambahkan");
+
+  loadData();
+
+});
+</script>
+
+</body>
+</html>
