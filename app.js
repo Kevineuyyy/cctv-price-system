@@ -23,16 +23,22 @@ const db = getFirestore(app);
 
 const table = document.getElementById("cctvTable");
 
+const searchInput =
+  document.getElementById("searchInput");
+
+  let allData = [];
 async function loadData() {
 
   const querySnapshot =
     await getDocs(collection(db, "cctv"));
 
-  table.innerHTML = "";
+  allData = [];
+    table.innerHTML = "";
 
   querySnapshot.forEach((doc) => {
 
     const item = doc.data();
+    allData.push(item);
 
     table.innerHTML += `
 
@@ -64,3 +70,46 @@ async function loadData() {
 }
 
 loadData();
+searchInput.addEventListener("input", () => {
+
+  const keyword =
+    searchInput.value.toLowerCase();
+
+  table.innerHTML = "";
+
+  const filtered =
+    allData.filter(item =>
+      item.seri.toLowerCase()
+      .includes(keyword)
+    );
+
+  filtered.forEach(item => {
+
+    table.innerHTML += `
+
+      <tr class="border-b">
+
+        <td class="p-3">
+          ${item.seri}
+        </td>
+
+        <td class="p-3">
+          ${item.jenis}
+        </td>
+
+        <td class="p-3">
+          ${item.resolusi}
+        </td>
+
+        <td class="p-3">
+          Rp ${Number(item.harga)
+            .toLocaleString("id-ID")}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+});
