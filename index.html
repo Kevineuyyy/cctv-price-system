@@ -18,7 +18,24 @@
     <h1 class="text-3xl font-bold mb-5">
       CCTV PRICE SYSTEM
     </h1>
-    
+
+    <div class="flex gap-3 mb-5">
+
+  <button
+    onclick="showCCTV()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+  >
+    CCTV
+  </button>
+
+  <button
+    onclick="showDVR()"
+    class="bg-gray-700 text-white px-4 py-2 rounded-lg"
+  >
+    DVR
+  </button>
+
+</div>
     <input
   type="text"
   id="searchInput"
@@ -40,6 +57,29 @@
         </thead>
 
         <tbody id="cctvTable">
+          <table
+  id="dvrSection"
+  class="w-full border hidden"
+>
+
+<thead class="bg-gray-200">
+
+<tr>
+
+<th class="p-3">Seri DVR</th>
+<th class="p-3">Channel</th>
+<th class="p-3">Support MP</th>
+<th class="p-3">Harga</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dvrTable">
+
+</tbody>
+
+</table>
 
         </tbody>
 

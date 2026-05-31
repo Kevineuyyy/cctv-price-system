@@ -22,6 +22,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const table = document.getElementById("cctvTable");
+const dvrTable =
+  document.getElementById("dvrTable");
 
 const searchInput =
   document.getElementById("searchInput");
@@ -113,3 +115,57 @@ searchInput.addEventListener("input", () => {
   });
 
 });
+async function loadDVR() {
+
+  const querySnapshot =
+    await getDocs(collection(db, "dvr"));
+
+  dvrTable.innerHTML = "";
+
+  querySnapshot.forEach((doc) => {
+
+    const item = doc.data();
+
+    dvrTable.innerHTML += `
+
+      <tr class="border-b">
+
+        <td class="p-3">
+          ${item.seri}
+        </td>
+
+        <td class="p-3">
+          ${item.channel}
+        </td>
+
+        <td class="p-3">
+          ${item.support_mp}
+        </td>
+
+        <td class="p-3">
+          Rp ${Number(item.harga)
+            .toLocaleString("id-ID")}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+loadDVR();
+window.showCCTV = function() {
+
+  document.getElementById("dvrSection")
+    .classList.add("hidden");
+
+}
+
+window.showDVR = function() {
+
+  document.getElementById("dvrSection")
+    .classList.remove("hidden");
+
+}
