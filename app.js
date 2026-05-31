@@ -158,12 +158,18 @@ async function loadDVR() {
 loadDVR();
 window.showCCTV = function() {
 
+  document.getElementById("cctvSection")
+    .classList.remove("hidden");
+
   document.getElementById("dvrSection")
     .classList.add("hidden");
 
 }
 
 window.showDVR = function() {
+
+  document.getElementById("cctvSection")
+    .classList.add("hidden");
 
   document.getElementById("dvrSection")
     .classList.remove("hidden");
