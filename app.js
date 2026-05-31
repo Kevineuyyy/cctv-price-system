@@ -175,3 +175,25 @@ window.showDVR = function() {
     .classList.remove("hidden");
 
 }
+
+window.showCCTV = function () {
+
+  document.getElementById("cctvSection")
+    .style.display = "table";
+
+  document.getElementById("dvrSection")
+    .style.display = "none";
+
+};
+
+window.showDVR = function () {
+
+  document.getElementById("cctvSection")
+    .style.display = "none";
+
+  document.getElementById("dvrSection")
+    .style.display = "table";
+
+};
+
+showCCTV();
